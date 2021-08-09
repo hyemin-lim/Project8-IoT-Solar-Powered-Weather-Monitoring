@@ -1,13 +1,23 @@
 # LoRaWAN / WiFi Weather Station
 
-Micro weather station for BastWAN or ESP8266.
+BastWAN or ESP8266 micro weather station.
+
+## Hardware
+
+- RAK3244 (a.k.a. BastWAN) or ESP8266*
+- BME680 (Intergrated temperature, humidity, barometric prssure, IAQ sensor)
+- DS18B20 (Temperature sensor)
+- Generic soil moisture sensor
+- ML8511 (UV sensor)
+
+\* ESP8266 support is only for testing purpose.
 
 ## Required Libraries
 
 - [Adafruit BME680 Library](https://github.com/adafruit/Adafruit_BME680)
 - [Arduino Library for Maxim Temperature Integrated Circuits (a.k.a. DallasTemperature)](https://github.com/milesburton/Arduino-Temperature-Control-Library)
 - For BastWAN
-    - [ElectronicCats Fork of Arduino Low Power](https://github.com/ElectronicCats/ArduinoLowPower)
+    - [ElectronicCats fork of Arduino Low Power](https://github.com/ElectronicCats/ArduinoLowPower)
 - For ESP8266
     - [Arduino Client for MQTT (a.k.a. PubSubClient)](https://pubsubclient.knolleary.net)
     - [base64_arduino](https://github.com/Densaugeo/base64_arduino)
@@ -25,7 +35,7 @@ The weather station sends 16 byte packet.
 | 8-bit Unsigned Integer | 8-bit Unsigned Integer | 16-bit Signed Integer | 16-bit Unsigned Integer | 16-bit Unsigned Integer | 16-bit Unsigned Integer | 16-bit Signed Integer | 16-bit Unsigned Integer | 16-bit Unsigned Integer |
 +------------------------+------------------------+-----------------------+-------------------------+-------------------------+-------------------------+-----------------------+-------------------------+-------------------------+
 ```
-All 16-bit integers are in Big-Endian(MSB first) byte order.
+All 16-bit integers are in Big-Endian (MSB first) byte order.
 
 After converting bytes into integers, use following table to obtain original values.
 
