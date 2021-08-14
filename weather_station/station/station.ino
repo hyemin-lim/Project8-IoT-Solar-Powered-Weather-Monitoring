@@ -1,31 +1,12 @@
 // Uncomment for BastWAN
-// #ifndef BASTWAN
-// #define BASTWAN
-// #endif
+#ifndef BASTWAN
+#define BASTWAN
+#endif
 
 // Uncomment for ESP8266
-#ifndef ESP8266
-#define ESP8266
-#endif
-
-#define ONE_WIRE_BUS 12
-#define UV_PIN A0
-
-// ESP8266 only has one ADC
-#ifndef ESP8266
-#define SOIL_MOIST_PIN A1
-#define VIN_PIN A2
-#define BAT_PIN A3
-#endif
-
-// Network settings for ESP8266
-// IMPORTANT: DO NOT EDIT HERE DIRECTLY. Edit these in `serets.h` instead.
-#ifdef ESP8266
-#include "secrets.h"
-const char *ssid = SECRET_WIFI_SSID;
-const char *password = SECRET_WIFI_PW;
-const char *mqtt_server = SECRET_MQTT_HOST;
-#endif
+// #ifndef ESP8266
+// #define ESP8266
+// #endif
 
 #include <Wire.h> // I2C
 #include <OneWire.h> // 1-Wire
@@ -38,14 +19,54 @@ const char *mqtt_server = SECRET_MQTT_HOST;
 #include <DallasTemperature.h>
 
 #ifdef BASTWAN
+#include <lorawan.h>
 #include "ArduinoLowPower.h"
-// LoRaWAN
 #endif
 
 #ifdef ESP8266
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include "base64.hpp"
+#endif
+
+#include "secrets.h"
+
+#ifdef BASTWAN
+// LoRaWAN OTAA credentials
+// IMPORTANT: DO NOT EDIT HERE DIRECTLY. Edit these in `secrets.h` instead.
+const char *devEui = SECRET_DEV_EUI;
+const char *appEui = SECRET_APP_EUI;
+const char *appKey = SECRET_APP_KEY;
+
+// Pin configurations
+const sRFM_pins RFM_pins = {
+  .CS = SS,
+  .RST = RFM_RST,
+  .DIO0 = RFM_DIO0,
+  .DIO1 = RFM_DIO1,
+  .DIO2 = RFM_DIO2,
+  .DIO5 = RFM_DIO5,
+};
+#define ONE_WIRE_BUS 10
+#define UV_PIN A0
+#define SOIL_MOIST_PIN A1
+#define VIN_PIN A2
+#define BAT_PIN A3
+#endif
+
+#ifdef ESP8266
+// WiFi credentials
+// IMPORTANT: DO NOT EDIT HERE DIRECTLY. Edit these in `secrets.h` instead.
+const char *ssid = SECRET_WIFI_SSID;
+const char *password = SECRET_WIFI_PW;
+
+// MQTT settings
+const char *mqtt_server = SECRET_MQTT_HOST;
+
+// Pin configurations
+// NOTE: ESP8266 only has one ADC.
+#define ONE_WIRE_BUS 12
+#define UV_PIN A0
 #endif
 
 OneWire oneWire(ONE_WIRE_BUS);
@@ -96,8 +117,9 @@ void setup() {
 
   pinMode(LED_BUILTIN, OUTPUT);
 
+  // Network setup
+  setupNetwork();
   #ifdef ESP8266
-  setupWifi();
   mqttClient.setServer(mqtt_server, 1883);
   mqttClient.connect("ESP8266");
   #endif
@@ -116,7 +138,7 @@ void loop() {
   digitalWrite(LED_BUILTIN, LOW);
 
   #ifdef BASTWAN
-  LowPower.sleep(10 * 60 * 1000); // 10 mins
+  LowPower.sleep(5 * 60 * 1000); // 5 mins
   #else
   delay(60 * 1000); // 1 min, For testing purpose
   #endif
@@ -131,6 +153,7 @@ void encodeSensorValues(unsigned char *data) {
   uint16_t batVoltage = map(batValue, 0, 712, 0, 450);
   #endif
   print("Battery", batVoltage / 100.0, "V");
+  print("Battery raw", batValue, "");
 
   // === Read VIN voltage ===
   #ifdef ESP8266
@@ -140,6 +163,7 @@ void encodeSensorValues(unsigned char *data) {
   uint8_t vinVoltage = map(vinValue, 0, 778, 0, 49);
   #endif
   print("VIN", vinVoltage / 10.0, "V");
+  print("VIN raw", vinValue, "");
 
   Serial.println();
 
@@ -211,9 +235,37 @@ void encodeSensorValues(unsigned char *data) {
   data[14] = char((uvIntensity16 >> 8));   data[15] = char(uvIntensity16);
 }
 
-#ifdef ESP8266
-void setupWifi() {
+void setupNetwork() {
+  #if defined(BASTWAN)
+  if(!lora.init()){
+    Serial.println("RFM95 not detected");
+    delay(5000);
+    return;
+  }
 
+  lora.setDeviceClass(CLASS_A);
+  lora.setDataRate(SF8BW125);
+  lora.setChannel(MULTI);
+  
+  lora.setDevEUI(devEui);
+  lora.setAppEUI(appEui);
+  lora.setAppKey(appKey);
+
+  // Join procedure
+  bool isJoined;
+  do {
+    Serial.println("Joining...");
+
+    digitalWrite(LED_BUILTIN, HIGH);
+    isJoined = lora.join();
+    digitalWrite(LED_BUILTIN, LOW);
+    
+    //wait for 10s to try again
+    delay(10000);
+  }while(!isJoined);
+  Serial.println("Joined to network");
+
+  #elif defined(ESP8266)
   delay(10);
   Serial.println();
   Serial.print("Connecting to ");
@@ -230,11 +282,14 @@ void setupWifi() {
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+  #endif
 }
-#endif
 
 void sendData(unsigned char *data) {
   #if defined(BASTWAN)
+  lora.sendUplink((char*)data, 16, 0, 1);
+  lora.update();
+
   #elif defined(ESP8266)
   // Base64 encoding
   unsigned char encodedString[100];

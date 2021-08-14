@@ -17,6 +17,7 @@ BastWAN or ESP8266 micro weather station.
 - [Adafruit BME680 Library](https://github.com/adafruit/Adafruit_BME680)
 - [Arduino Library for Maxim Temperature Integrated Circuits (a.k.a. DallasTemperature)](https://github.com/milesburton/Arduino-Temperature-Control-Library)
 - For BastWAN
+    - [Beelan-LoRaWAN with KR920 support](https://github.com/sh1217sh/Beelan-LoRaWAN/tree/KR920)
     - [ElectronicCats fork of Arduino Low Power](https://github.com/ElectronicCats/ArduinoLowPower)
 - For ESP8266
     - [Arduino Client for MQTT (a.k.a. PubSubClient)](https://pubsubclient.knolleary.net)
