@@ -61,11 +61,11 @@ now only available to testGAEUN@gmail.com<br><br><br>
 | msgID | varchar(20) |
 | time | datetime (mysql datetime, format : YYYY-MM-DD hh:mm:ss) |
 | Battery_voltage | decimal(4,2) |
-- VIN_voltage : decimal(4,2)
-- Ambient_temperature : decimal(4,2)
-- Ambient_humidity : decimal(4,2)
-- Barometric_pressure : decimal(6,2)
-- Gas_resistance : decimal(4,2)
-- Soil_temperature : decimal(4,2)
-- Soil_moisture : int
-- UV_intensity : decimal(4,2)
+| VIN_voltage | decimal(4,2) |
+| Ambient_temperature | decimal(4,2) |
+| Ambient_humidity | decimal(4,2) |
+| Barometric_pressure | decimal(6,2) |
+| Gas_resistance | decimal(4,2) |
+| Soil_temperature | decimal(4,2) |
+| Soil_moisture | int |
+| UV_intensity | decimal(4,2) |
