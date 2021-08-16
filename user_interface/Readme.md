@@ -34,6 +34,7 @@ installed
 
 ### Realtime Data
 Realtime Data page shows sensor data through gauge or linear graph.
+![realtime](.img/realtime.jpg)
 
 ### History
 History includes pages as follows.
