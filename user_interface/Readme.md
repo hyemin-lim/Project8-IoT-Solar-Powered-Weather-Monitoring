@@ -28,8 +28,8 @@ installed
 - node-red-node-mysql v0.2.1
 
 ### MySQL
-
-- v8.0.26
+version
+- v8.0.26<br>
 server 
 - 132.145.95.163
 
