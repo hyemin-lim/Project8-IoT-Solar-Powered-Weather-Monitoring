@@ -1,5 +1,6 @@
 # User Interface
 
+
 ## Link
 
 
@@ -31,4 +32,16 @@ installed
 ## Major Features
 
 
-###
+### Realtime Data
+Realtime Data page shows sensor data through gauge or linear graph.
+
+### History
+History includes pages as follows.
+- History : shows entire DB data
+- Daily : shows daily history of weather data
+- Weekly : shows weekly history of weather data
+- Monthly : shows monthly history of weather data
+- Yearly : shows yearly history of weather data
+
+### Email Notification
+you can set up an email notification when weather value goes higher or lower than settings.
