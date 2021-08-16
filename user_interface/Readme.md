@@ -42,7 +42,11 @@ History includes pages as follows.
 - Daily : shows daily history of weather data
 - Weekly : shows weekly history of weather data
 - Monthly : shows monthly history of weather data
-- Yearly : shows yearly history of weather data
+- Yearly : shows yearly history of weather data<br>
+![History](./img/history.jpg)<br>
+![Daily](./img/daily.jpg)<br>
 
 ### Email Notification
-you can set up an email notification when weather value goes higher or lower than settings.
+you can set up an email notification when weather value goes higher or lower than settings.<br>
+now only available to testGAEUN@gmail.com<br>
+![settings](./img/setting.jpg)
