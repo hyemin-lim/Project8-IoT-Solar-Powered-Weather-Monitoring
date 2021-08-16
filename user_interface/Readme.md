@@ -33,7 +33,7 @@ installed
 
 
 ### Realtime Data
-Realtime Data page shows sensor data through gauge or linear graph.<br>
+Realtime Data page shows sensor data through gauge or linear graph.<br><br><br>
 ![realtime](./img/realtime.jpg)
 
 ### History
@@ -42,11 +42,11 @@ History includes pages as follows.
 - Daily : shows daily history of weather data
 - Weekly : shows weekly history of weather data
 - Monthly : shows monthly history of weather data
-- Yearly : shows yearly history of weather data<br>
+- Yearly : shows yearly history of weather data<br><br><br>
 ![History](./img/history.jpg)<br>
 ![Daily](./img/daily.jpg)<br>
 
 ### Email Notification
 you can set up an email notification when weather value goes higher or lower than settings.<br>
-now only available to testGAEUN@gmail.com<br>
+now only available to testGAEUN@gmail.com<br><br><br>
 ![settings](./img/setting.jpg)
