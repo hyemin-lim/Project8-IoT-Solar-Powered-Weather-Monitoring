@@ -8,7 +8,10 @@
 ## Tools
 
 ### The Things Network
-connects weather station and Node-RED using MQTT broker.
+connects weather station and Node-RED using MQTT broker.<br>
+<br>
+server
+- nam1.cloud.thethings.industries
 
 ### Node-RED
 
