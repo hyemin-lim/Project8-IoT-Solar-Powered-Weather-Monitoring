@@ -1,8 +1,3 @@
-# UI readme
-
-Created: August 16, 2021 12:33 PM
-Status: In Progress
-
 # User Interface
 
 ## Link
