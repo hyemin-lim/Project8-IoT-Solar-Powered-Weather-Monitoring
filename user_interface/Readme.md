@@ -30,8 +30,8 @@ installed
 ### MySQL
 
 - v8.0.26
-- server - 132.145.95.163
-- port - 3306
+server 
+- 132.145.95.163
 
 ## Major Features
 
