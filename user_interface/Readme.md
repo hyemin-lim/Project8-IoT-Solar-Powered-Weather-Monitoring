@@ -29,7 +29,8 @@ installed
 
 ### MySQL
 version
-- v8.0.26<br>
+- v8.0.26
+
 server 
 - 132.145.95.163
 
