@@ -25,7 +25,9 @@
                 "6142a139c691e7b9",
                 "4207b2d64c8a9d89",
                 "1e2f2936178b552e",
-                "bf8bbb2bd2a9a496"
+                "bf8bbb2bd2a9a496",
+                "d23312f2ebc7299e",
+                "9cef1d85ff2f27b9"
             ]
         ]
     },
@@ -223,7 +225,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "SQL query2",
-        "func": "msg.topic = msg.topic + \"\\\"\"+msg.end+\"\\\"\";\nreturn msg;",
+        "func": "msg.topic = msg.topic + \"\\\"\"+msg.end+\"\\\" order by time asc\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -541,7 +543,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "SQL query",
-        "func": "var today00 = new Date();\nvar tomorrow00 = new Date(today00);\ntomorrow00.setDate(tomorrow00.getDate() + 1);\n\nvar today = today00.getFullYear() + \"-\"+ (today00.getMonth()+1) + \"-\" + today00.getDate();\nvar tomorrow = tomorrow00.getFullYear() + \"-\"+ (tomorrow00.getMonth()+1) + \"-\" + tomorrow00.getDate();\n\nmsg.topic = \"select date_format(time, '%Y-%m-%d-%r') as time, Battery_voltage, VIN_voltage \\\n, Ambient_temperature, Ambient_humidity \\\n, Barometric_pressure, Gas_resistance \\\n, Soil_temperature, Soil_moisture \\\n, UV_intensity \\\nfrom `iot-weather`.SensorData \\\nwhere time between \" + \"\\\"\"+today+\"\\\"\" + \" and \" + \"\\\"\"+tomorrow+\"\\\"\";\n            \nmsg.payload = today00.toDateString();\nreturn msg;",
+        "func": "var today00 = new Date();\nvar tomorrow00 = new Date(today00);\ntomorrow00.setDate(tomorrow00.getDate() + 1);\n\nvar today = today00.getFullYear() + \"-\"+ (today00.getMonth()+1) + \"-\" + today00.getDate();\nvar tomorrow = tomorrow00.getFullYear() + \"-\"+ (tomorrow00.getMonth()+1) + \"-\" + tomorrow00.getDate();\n\nmsg.topic = \"select date_format(time, '%Y-%m-%d-%r') as time, Battery_voltage, VIN_voltage \\\n, Ambient_temperature, Ambient_humidity \\\n, Barometric_pressure, Gas_resistance \\\n, Soil_temperature, Soil_moisture \\\n, UV_intensity \\\nfrom `iot-weather`.SensorData \\\nwhere time between \" + \"\\\"\"+today+\"\\\"\" + \" and \" + \"\\\"\"+tomorrow+\"\\\" order by time asc\";\n            \nmsg.payload = today00.toDateString();\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -682,7 +684,9 @@
                 "cc3ccf3358a60e2b",
                 "19f37ed2aa1e8bc9",
                 "da4e7a3bd0108735",
-                "96e56760f6119417"
+                "96e56760f6119417",
+                "a67a63cd060d6753",
+                "48ff9016f4cb2e02"
             ]
         ]
     },
@@ -910,7 +914,9 @@
                 "d4fe3a6e438ba5f9",
                 "87687e9d5ca725d9",
                 "5d0520f4b8d15005",
-                "958cd92b63c8c8e7"
+                "958cd92b63c8c8e7",
+                "07f9f4833ef0f623",
+                "b055dfd4c39e7917"
             ]
         ]
     },
@@ -1132,7 +1138,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "SQL query",
-        "func": "msg.topic = \"select date_format(time, '%Y-%m-%d') as day, \\\navg(Battery_voltage) as Battery_voltage, avg(VIN_voltage) as VIN_voltage \\\n, avg(Ambient_temperature) as Ambient_temperature, avg(Ambient_humidity) as Ambient_humidity \\\n, avg(Barometric_pressure) as Barometric_pressure, avg(Gas_resistance) as Gas_resistance \\\n, avg(Soil_temperature) as Soil_temperature, avg(Soil_moisture) as Soil_moisture \\\n, avg(UV_intensity) as UV_intensity \\\nfrom `iot-weather`.SensorData \\\nwhere \"+\"\\\"\"+msg.payload+\"\\\"\" +\" between \\\n\t\tDATE_FORMAT( \\\n\t\t  DATE_ADD(time, INTERVAL (WEEKDAY(time)) * -1 DAY), \\\n\t\t  '%Y-%m-%d' \\\n\t\t) \\\n\t\tand \\\n\t\tDATE_FORMAT( \\\n\t\t  DATE_ADD(time, INTERVAL (6 - WEEKDAY(time)) * +1 DAY), \\\n\t\t  '%Y-%m-%d' \\\n\t\t) \\\ngroup by day\";\nreturn msg;\n",
+        "func": "msg.topic = \"select date_format(time, '%Y-%m-%d') as day, \\\navg(Battery_voltage) as Battery_voltage, avg(VIN_voltage) as VIN_voltage \\\n, avg(Ambient_temperature) as Ambient_temperature, avg(Ambient_humidity) as Ambient_humidity \\\n, avg(Barometric_pressure) as Barometric_pressure, avg(Gas_resistance) as Gas_resistance \\\n, avg(Soil_temperature) as Soil_temperature, avg(Soil_moisture) as Soil_moisture \\\n, avg(UV_intensity) as UV_intensity \\\nfrom `iot-weather`.SensorData \\\nwhere \"+\"\\\"\"+msg.payload+\"\\\"\" +\" between \\\n\t\tDATE_FORMAT( \\\n\t\t  DATE_ADD(time, INTERVAL (WEEKDAY(time)) * -1 DAY), \\\n\t\t  '%Y-%m-%d' \\\n\t\t) \\\n\t\tand \\\n\t\tDATE_FORMAT( \\\n\t\t  DATE_ADD(time, INTERVAL (6 - WEEKDAY(time)) * +1 DAY), \\\n\t\t  '%Y-%m-%d' \\\n\t\t) \\\ngroup by day \\\norder by day asc\";\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1200,7 +1206,9 @@
                 "cb8c3fb1377502f6",
                 "3432ed828abcca85",
                 "ff13340c8ae97bad",
-                "3c10ab6edd10bd6e"
+                "3c10ab6edd10bd6e",
+                "33f1d24b3e961899",
+                "da8083bbad2ed476"
             ]
         ]
     },
@@ -1476,7 +1484,9 @@
                 "579fbc56facdd684",
                 "e4897e8a0fdbc311",
                 "f59652af8e26080e",
-                "a27ddae0a396c7b0"
+                "a27ddae0a396c7b0",
+                "2031a9cbc084b339",
+                "d2f8aa4cbeb4fd57"
             ]
         ]
     },
@@ -1656,7 +1666,7 @@
         "type": "ui_text_input",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "label": "Soil Temperature is higher than",
+        "label": "Soil Temperature(℃) is higher than",
         "tooltip": "",
         "group": "d7c00efcd7723aba",
         "order": 3,
@@ -1667,7 +1677,7 @@
         "delay": "0",
         "topic": "st_higher",
         "topicType": "msg",
-        "x": 1430,
+        "x": 1440,
         "y": 440,
         "wires": [
             [
@@ -1691,7 +1701,7 @@
         "delay": "0",
         "topic": "uv_higher",
         "topicType": "str",
-        "x": 1420,
+        "x": 1410,
         "y": 600,
         "wires": [
             [
@@ -1789,7 +1799,7 @@
         "type": "ui_text_input",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "label": "Ambient temperature is higher than",
+        "label": "Ambient temperature(℃) is higher than",
         "tooltip": "",
         "group": "2152269584b32e55",
         "order": 3,
@@ -1800,7 +1810,7 @@
         "delay": "0",
         "topic": "t_higher",
         "topicType": "msg",
-        "x": 1440,
+        "x": 1450,
         "y": 200,
         "wires": [
             [
@@ -2013,7 +2023,7 @@
         "type": "ui_text_input",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "label": "Ambient temperature is lower than",
+        "label": "Ambient temperature(℃) is lower than",
         "tooltip": "",
         "group": "2152269584b32e55",
         "order": 4,
@@ -2024,7 +2034,7 @@
         "delay": "0",
         "topic": "t_lower",
         "topicType": "msg",
-        "x": 1440,
+        "x": 1450,
         "y": 240,
         "wires": [
             [
@@ -2127,7 +2137,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Ambient Temperature is higher than \" + msg.t_higher\nreturn msg;",
+        "func": "msg.payload = \"Ambient Temperature is higher than \" + msg.t_higher + \".\\nAmbient Temperature is \" + msg.Ambient_temperature + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2146,7 +2156,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Ambient Temperature is lower than \" + msg.t_lower\nreturn msg;",
+        "func": "msg.payload = \"Ambient Temperature is lower than \" + msg.t_lower + \".\\nAmbient Temperature is \" + msg.Ambient_temperature + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2156,7 +2166,7 @@
         "y": 920,
         "wires": [
             [
-                "0a6295319ea44a79"
+                "66094b90da646f21"
             ]
         ]
     },
@@ -2386,7 +2396,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Battery voltage is higher than \" + msg.v_higher\nreturn msg;",
+        "func": "msg.payload = \"Battery voltage is higher than \" + msg.v_higher + \".\\nBattery voltage is \" + msg.Battery_voltage + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2405,7 +2415,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Battery voltage is lower than \" + msg.v_lower\nreturn msg;",
+        "func": "msg.payload = \"Battery voltage is lower than \" + msg.v_lower + \".\\nBattery voltage is \" + msg.Battery_voltage + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2472,7 +2482,7 @@
         "type": "ui_text_input",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "label": "Soil Temperature is lower than",
+        "label": "Soil Temperature(℃) is lower than",
         "tooltip": "",
         "group": "d7c00efcd7723aba",
         "order": 4,
@@ -2483,7 +2493,7 @@
         "delay": "0",
         "topic": "st_lower",
         "topicType": "msg",
-        "x": 1430,
+        "x": 1440,
         "y": 480,
         "wires": [
             [
@@ -2507,7 +2517,7 @@
         "delay": "0",
         "topic": "m_lower",
         "topicType": "msg",
-        "x": 1420,
+        "x": 1410,
         "y": 560,
         "wires": [
             [
@@ -2929,7 +2939,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Ambient Humidity is higher than \" + msg.h_higher\nreturn msg;",
+        "func": "msg.payload = \"Ambient Humidity is higher than \" + msg.h_higher\n+ \".\\nAmbient Humidity is \" + msg.Ambient_humidity + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2948,7 +2958,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Ambient Humidity is lower than \" + msg.h_lower\nreturn msg;",
+        "func": "msg.payload = \"Ambient Humidity is lower than \" + msg.h_lower\n+ \".\\nAmbient Humidity is \" + msg.Ambient_humidity + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3080,7 +3090,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Barometric Pressure is higher than \" + msg.p_higher\nreturn msg;",
+        "func": "msg.payload = \"Barometric Pressure is higher than \" + msg.p_higher\n+ \".\\nBarometric Pressure is \" + msg.Barometric_pressure + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3099,7 +3109,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Barometric Pressure is lower than \" + msg.p_lower\nreturn msg;",
+        "func": "msg.payload = \"Barometric Pressure is lower than \" + msg.p_lower\n+ \".\\nBarometric Pressure is \" + msg.Barometric_pressure + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3231,7 +3241,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Soil Temperature is higher than \" + msg.st_higher\nreturn msg;",
+        "func": "msg.payload = \"Soil Temperature is higher than \" + msg.st_higher\n+ \".\\nSoil Temperature is \" + msg.Soil_temperature + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3250,7 +3260,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Soil Temperature is lower than \" + msg.st_lower\nreturn msg;",
+        "func": "msg.payload = \"Soil Temperature is lower than \" + msg.st_lower\n+ \".\\nSoil Temperature is \" + msg.Soil_temperature + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3382,7 +3392,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Soil Moisture is higher than \" + msg.m_higher\nreturn msg;",
+        "func": "msg.payload = \"Soil Moisture is higher than \" + msg.m_higher\n+ \".\\nSoil Moisture is \" + msg.Soil_moisture + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3401,7 +3411,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"Soil Moisture is lower than \" + msg.m_lower\nreturn msg;",
+        "func": "msg.payload = \"Soil Moisture is lower than \" + msg.m_lower\n+ \".\\nSoil Moisture is \" + msg.Soil_moisture + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3448,7 +3458,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"UV Intensity is higher than \" + msg.uv_higher\nreturn msg;",
+        "func": "msg.payload = \"UV Intensity is higher than \" + msg.uv_higher\n+ \".\\nUV Intensity is \" + msg.UV_intensity + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3467,7 +3477,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "msg.payload = \"UV Intensity is lower than \" + msg.uv_lower\nreturn msg;",
+        "func": "msg.payload = \"UV Intensity is lower than \" + msg.uv_lower\n+ \".\\nUV Intensity is \" + msg.UV_intensity + \".\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3538,32 +3548,6 @@
             [],
             [
                 "a7ac44cc8a9829fd"
-            ]
-        ]
-    },
-    {
-        "id": "0a6295319ea44a79",
-        "type": "trigger",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "op1": "",
-        "op2": "",
-        "op1type": "pay",
-        "op2type": "payl",
-        "duration": "30",
-        "extend": false,
-        "overrideDelay": false,
-        "units": "min",
-        "reset": "",
-        "bytopic": "all",
-        "topic": "topic",
-        "outputs": 2,
-        "x": 2410,
-        "y": 920,
-        "wires": [
-            [],
-            [
-                "0cf9c2bd0b7ff10b"
             ]
         ]
     },
@@ -4195,10 +4179,10 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "c173422b120a2207",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "label": "Ambient_temperature",
+        "label": "Ambient_temperature(℃)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -4226,7 +4210,7 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1150,
+        "x": 1160,
         "y": 3120,
         "wires": [
             []
@@ -4244,7 +4228,7 @@
         "finalize": "",
         "libs": [],
         "x": 940,
-        "y": 3160,
+        "y": 3200,
         "wires": [
             [
                 "26716c17a16e2802"
@@ -4289,7 +4273,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1140,
-        "y": 3160,
+        "y": 3200,
         "wires": [
             []
         ]
@@ -4319,7 +4303,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "c173422b120a2207",
-        "order": 3,
+        "order": 4,
         "width": 0,
         "height": 0,
         "label": "Barometric_pressure",
@@ -4381,7 +4365,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "c173422b120a2207",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "label": "Gas_resistance",
@@ -4443,10 +4427,10 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "cf6a9618fd6f8bb7",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "label": "Soil_temperature",
+        "label": "Soil_temperature(℃)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -4474,7 +4458,7 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1600,
+        "x": 1610,
         "y": 3120,
         "wires": [
             []
@@ -4492,7 +4476,7 @@
         "finalize": "",
         "libs": [],
         "x": 1400,
-        "y": 3160,
+        "y": 3200,
         "wires": [
             [
                 "b05de9f3cf5393e0"
@@ -4537,7 +4521,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1590,
-        "y": 3160,
+        "y": 3200,
         "wires": [
             []
         ]
@@ -4554,7 +4538,7 @@
         "finalize": "",
         "libs": [],
         "x": 1400,
-        "y": 3200,
+        "y": 3240,
         "wires": [
             [
                 "b8a3c27f392acda2"
@@ -4567,7 +4551,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "c173422b120a2207",
-        "order": 5,
+        "order": 6,
         "width": 0,
         "height": 0,
         "label": "UV_intensity",
@@ -4599,7 +4583,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1580,
-        "y": 3200,
+        "y": 3240,
         "wires": [
             []
         ]
@@ -4753,10 +4737,10 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "2d7cdfc4c2617b87",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "label": "Ambient_temperature",
+        "label": "Ambient_temperature(℃)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -4784,7 +4768,7 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1130,
+        "x": 1140,
         "y": 3440,
         "wires": [
             []
@@ -4802,7 +4786,7 @@
         "finalize": "",
         "libs": [],
         "x": 920,
-        "y": 3480,
+        "y": 3520,
         "wires": [
             [
                 "8e3eb24d534b16b8"
@@ -4847,7 +4831,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1120,
-        "y": 3480,
+        "y": 3520,
         "wires": [
             []
         ]
@@ -4877,7 +4861,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "2d7cdfc4c2617b87",
-        "order": 3,
+        "order": 4,
         "width": 0,
         "height": 0,
         "label": "Barometric_pressure",
@@ -4939,7 +4923,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "2d7cdfc4c2617b87",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "label": "Gas_resistance",
@@ -5001,10 +4985,10 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "212c553e2d7ecc4d",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "label": "Soil_temperature",
+        "label": "Soil_temperature(℃)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -5032,7 +5016,7 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1570,
+        "x": 1580,
         "y": 3440,
         "wires": [
             []
@@ -5050,7 +5034,7 @@
         "finalize": "",
         "libs": [],
         "x": 1380,
-        "y": 3480,
+        "y": 3520,
         "wires": [
             [
                 "2e7ada71f24f17d2"
@@ -5095,7 +5079,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1570,
-        "y": 3480,
+        "y": 3520,
         "wires": [
             []
         ]
@@ -5112,7 +5096,7 @@
         "finalize": "",
         "libs": [],
         "x": 1380,
-        "y": 3520,
+        "y": 3560,
         "wires": [
             [
                 "599d333883f54a29"
@@ -5125,7 +5109,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "2d7cdfc4c2617b87",
-        "order": 5,
+        "order": 6,
         "width": 0,
         "height": 0,
         "label": "UV_intensity",
@@ -5157,7 +5141,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1560,
-        "y": 3520,
+        "y": 3560,
         "wires": [
             []
         ]
@@ -5311,10 +5295,10 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "b82fd0bb1f40f18e",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "label": "Ambient_temperature",
+        "label": "Ambient_temperature(℃)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -5342,7 +5326,7 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 910,
+        "x": 920,
         "y": 2760,
         "wires": [
             []
@@ -5360,7 +5344,7 @@
         "finalize": "",
         "libs": [],
         "x": 700,
-        "y": 2800,
+        "y": 2840,
         "wires": [
             [
                 "bbf0d2c9067f6e8c"
@@ -5405,7 +5389,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 900,
-        "y": 2800,
+        "y": 2840,
         "wires": [
             []
         ]
@@ -5435,7 +5419,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "b82fd0bb1f40f18e",
-        "order": 3,
+        "order": 4,
         "width": 0,
         "height": 0,
         "label": "Barometric_pressure",
@@ -5497,7 +5481,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "b82fd0bb1f40f18e",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "label": "Gas_resistance",
@@ -5559,10 +5543,10 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "743b74826b5998bd",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "label": "Soil_temperature",
+        "label": "Soil_temperature(℃)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -5590,7 +5574,7 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1360,
+        "x": 1370,
         "y": 2760,
         "wires": [
             []
@@ -5608,7 +5592,7 @@
         "finalize": "",
         "libs": [],
         "x": 1160,
-        "y": 2800,
+        "y": 2840,
         "wires": [
             [
                 "f872c7738752de28"
@@ -5653,7 +5637,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1350,
-        "y": 2800,
+        "y": 2840,
         "wires": [
             []
         ]
@@ -5670,7 +5654,7 @@
         "finalize": "",
         "libs": [],
         "x": 1160,
-        "y": 2840,
+        "y": 2880,
         "wires": [
             [
                 "ff9f5580b4d1118e"
@@ -5683,7 +5667,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "b82fd0bb1f40f18e",
-        "order": 5,
+        "order": 6,
         "width": 0,
         "height": 0,
         "label": "UV_intensity",
@@ -5715,7 +5699,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1340,
-        "y": 2840,
+        "y": 2880,
         "wires": [
             []
         ]
@@ -5869,10 +5853,10 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "33ba1f2a07ae96f8",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "label": "Ambient_temperature",
+        "label": "Ambient_temperature(℃)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -5900,7 +5884,7 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1110,
+        "x": 1120,
         "y": 3740,
         "wires": [
             []
@@ -5918,7 +5902,7 @@
         "finalize": "",
         "libs": [],
         "x": 900,
-        "y": 3780,
+        "y": 3820,
         "wires": [
             [
                 "97a1f6dfc873b4b5"
@@ -5963,7 +5947,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1100,
-        "y": 3780,
+        "y": 3820,
         "wires": [
             []
         ]
@@ -5993,7 +5977,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "33ba1f2a07ae96f8",
-        "order": 3,
+        "order": 4,
         "width": 0,
         "height": 0,
         "label": "Barometric_pressure",
@@ -6055,7 +6039,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "33ba1f2a07ae96f8",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "label": "Gas_resistance",
@@ -6117,10 +6101,10 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "b5a613271423faf9",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "label": "Soil_temperature",
+        "label": "Soil_temperature(℃)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -6148,7 +6132,7 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1550,
+        "x": 1560,
         "y": 3740,
         "wires": [
             []
@@ -6166,7 +6150,7 @@
         "finalize": "",
         "libs": [],
         "x": 1360,
-        "y": 3780,
+        "y": 3820,
         "wires": [
             [
                 "7928ac9646de0741"
@@ -6211,7 +6195,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1550,
-        "y": 3780,
+        "y": 3820,
         "wires": [
             []
         ]
@@ -6228,7 +6212,7 @@
         "finalize": "",
         "libs": [],
         "x": 1360,
-        "y": 3820,
+        "y": 3860,
         "wires": [
             [
                 "81cb42091377f13d"
@@ -6241,7 +6225,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "33ba1f2a07ae96f8",
-        "order": 5,
+        "order": 6,
         "width": 0,
         "height": 0,
         "label": "UV_intensity",
@@ -6273,7 +6257,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1540,
-        "y": 3820,
+        "y": 3860,
         "wires": [
             []
         ]
@@ -6427,10 +6411,10 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "4ffd738c2b1b7fdb",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "label": "Ambient_temperature",
+        "label": "Ambient_temperature(℃)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -6458,7 +6442,7 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1130,
+        "x": 1140,
         "y": 4060,
         "wires": [
             []
@@ -6476,7 +6460,7 @@
         "finalize": "",
         "libs": [],
         "x": 920,
-        "y": 4100,
+        "y": 4140,
         "wires": [
             [
                 "464bb9799a8410ea"
@@ -6521,7 +6505,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1120,
-        "y": 4100,
+        "y": 4140,
         "wires": [
             []
         ]
@@ -6551,7 +6535,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "4ffd738c2b1b7fdb",
-        "order": 3,
+        "order": 4,
         "width": 0,
         "height": 0,
         "label": "Barometric_pressure",
@@ -6613,7 +6597,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "4ffd738c2b1b7fdb",
-        "order": 4,
+        "order": 5,
         "width": 0,
         "height": 0,
         "label": "Gas_resistance",
@@ -6675,10 +6659,10 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "33e17011000c4de2",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "label": "Soil_temperature",
+        "label": "Soil_temperature(℃)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm",
@@ -6706,7 +6690,7 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1570,
+        "x": 1580,
         "y": 4060,
         "wires": [
             []
@@ -6724,7 +6708,7 @@
         "finalize": "",
         "libs": [],
         "x": 1380,
-        "y": 4100,
+        "y": 4140,
         "wires": [
             [
                 "6be97dd9a62c5fab"
@@ -6769,7 +6753,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1570,
-        "y": 4100,
+        "y": 4140,
         "wires": [
             []
         ]
@@ -6786,7 +6770,7 @@
         "finalize": "",
         "libs": [],
         "x": 1380,
-        "y": 4140,
+        "y": 4180,
         "wires": [
             [
                 "4162070eb447f33a"
@@ -6799,7 +6783,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "",
         "group": "4ffd738c2b1b7fdb",
-        "order": 5,
+        "order": 6,
         "width": 0,
         "height": 0,
         "label": "UV_intensity",
@@ -6831,8 +6815,654 @@
         "outputs": 1,
         "useDifferentColor": false,
         "x": 1560,
-        "y": 4140,
+        "y": 4180,
         "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a4cc81f02bb2ba24",
+        "type": "ui_chart",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "b82fd0bb1f40f18e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Ambient Temperature(°F)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 910,
+        "y": 2800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "89a8e6102b050b27",
+        "type": "ui_chart",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "743b74826b5998bd",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Soil Temperature(°F)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1380,
+        "y": 2800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8c6d951b7f0c283e",
+        "type": "ui_chart",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "c173422b120a2207",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Ambient Temperature(°F)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1150,
+        "y": 3160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "76425434f4cfb275",
+        "type": "ui_chart",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "cf6a9618fd6f8bb7",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Soil Temperature(°F)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1600,
+        "y": 3160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b2855f94368c304",
+        "type": "ui_chart",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "2d7cdfc4c2617b87",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Ambient Temperature(°F)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1130,
+        "y": 3480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5d0737351f14eb93",
+        "type": "ui_chart",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "212c553e2d7ecc4d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Soil Temperature(°F)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1580,
+        "y": 3480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2a7ff22987348404",
+        "type": "ui_chart",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "33ba1f2a07ae96f8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Ambient Temperature(°F)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1130,
+        "y": 3780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fd7a048bd4a9b851",
+        "type": "ui_chart",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "b5a613271423faf9",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Soil Temperature(°F)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1560,
+        "y": 3780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b0fbde4115c0281c",
+        "type": "ui_chart",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "4ffd738c2b1b7fdb",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Ambient Temperature(°F)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1150,
+        "y": 4100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fece63069ee606fc",
+        "type": "ui_chart",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "group": "33e17011000c4de2",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Soil Temperature(°F)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1580,
+        "y": 4100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "33f1d24b3e961899",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n// data[0].msgID\n// data[0].time\n\n// data[0].Battery_voltage\n// data[0].VIN_voltage\n// data[0].Ambient_temperature\n// data[0].Ambient_humidity\n// data[0].Barometric_pressure\n// data[0].Gas_resistance\n// data[0].Soil_temperature\n// data[0].Soil_moisture\n// data[0].UV_intensity\n\nfor (var i=0; i<data.length; i++){\n    y.push(data[i].Ambient_temperature*(9/5) + 32);\n    x.push(data[i].day);\n}\n\nmsg.payload = [{\n    series: \"\",\n    data: [y],\n    labels: x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 3480,
+        "wires": [
+            [
+                "9b2855f94368c304"
+            ]
+        ]
+    },
+    {
+        "id": "da8083bbad2ed476",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n// data[0].msgID\n// data[0].time\n\n// data[0].Battery_voltage\n// data[0].VIN_voltage\n// data[0].Ambient_temperature\n// data[0].Ambient_humidity\n// data[0].Barometric_pressure\n// data[0].Gas_resistance\n// data[0].Soil_temperature\n// data[0].Soil_moisture\n// data[0].UV_intensity\n\nfor (var i=0; i<data.length; i++){\n    y.push(data[i].Soil_temperature*(9/5) + 32);\n    x.push(data[i].day);\n}\n\nmsg.payload = [{\n    series: \"\",\n    data: [y],\n    labels: x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1380,
+        "y": 3480,
+        "wires": [
+            [
+                "5d0737351f14eb93"
+            ]
+        ]
+    },
+    {
+        "id": "07f9f4833ef0f623",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n// data[0].msgID\n// data[0].time\n\n// data[0].Battery_voltage\n// data[0].VIN_voltage\n// data[0].Ambient_temperature\n// data[0].Ambient_humidity\n// data[0].Barometric_pressure\n// data[0].Gas_resistance\n// data[0].Soil_temperature\n// data[0].Soil_moisture\n// data[0].UV_intensity\n\nfor (var i=0; i<data.length; i++){\n    y.push(data[i].Ambient_temperature*(9/5) + 32);\n    x.push(data[i].month);\n}\n\nmsg.payload = [{\n    series: \"\",\n    data: [y],\n    labels: x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 4100,
+        "wires": [
+            [
+                "b0fbde4115c0281c"
+            ]
+        ]
+    },
+    {
+        "id": "b055dfd4c39e7917",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n// data[0].msgID\n// data[0].time\n\n// data[0].Battery_voltage\n// data[0].VIN_voltage\n// data[0].Ambient_temperature\n// data[0].Ambient_humidity\n// data[0].Barometric_pressure\n// data[0].Gas_resistance\n// data[0].Soil_temperature\n// data[0].Soil_moisture\n// data[0].UV_intensity\n\nfor (var i=0; i<data.length; i++){\n    y.push(data[i].Soil_temperature*(9/5) + 32);\n    x.push(data[i].month);\n}\n\nmsg.payload = [{\n    series: \"\",\n    data: [y],\n    labels: x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1380,
+        "y": 4100,
+        "wires": [
+            [
+                "fece63069ee606fc"
+            ]
+        ]
+    },
+    {
+        "id": "d2f8aa4cbeb4fd57",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n// data[0].msgID\n// data[0].time\n\n// data[0].Battery_voltage\n// data[0].VIN_voltage\n// data[0].Ambient_temperature\n// data[0].Ambient_humidity\n// data[0].Barometric_pressure\n// data[0].Gas_resistance\n// data[0].Soil_temperature\n// data[0].Soil_moisture\n// data[0].UV_intensity\n\nfor (var i=0; i<data.length; i++){\n    y.push(data[i].Ambient_temperature*(9/5) + 32);\n    x.push(data[i].day);\n}\n\nmsg.payload = [{\n    series: \"\",\n    data: [y],\n    labels: x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 3780,
+        "wires": [
+            [
+                "2a7ff22987348404"
+            ]
+        ]
+    },
+    {
+        "id": "2031a9cbc084b339",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n// data[0].msgID\n// data[0].time\n\n// data[0].Battery_voltage\n// data[0].VIN_voltage\n// data[0].Ambient_temperature\n// data[0].Ambient_humidity\n// data[0].Barometric_pressure\n// data[0].Gas_resistance\n// data[0].Soil_temperature\n// data[0].Soil_moisture\n// data[0].UV_intensity\n\nfor (var i=0; i<data.length; i++){\n    y.push(data[i].Soil_temperature*(9/5) + 32);\n    x.push(data[i].day);\n}\n\nmsg.payload = [{\n    series: \"\",\n    data: [y],\n    labels: x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1360,
+        "y": 3780,
+        "wires": [
+            [
+                "fd7a048bd4a9b851"
+            ]
+        ]
+    },
+    {
+        "id": "48ff9016f4cb2e02",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n// data[0].msgID\n// data[0].time\n\n// data[0].Battery_voltage\n// data[0].VIN_voltage\n// data[0].Ambient_temperature\n// data[0].Ambient_humidity\n// data[0].Barometric_pressure\n// data[0].Gas_resistance\n// data[0].Soil_temperature\n// data[0].Soil_moisture\n// data[0].UV_intensity\n\nfor (var i=0; i<data.length; i++){\n    y.push(data[i].Ambient_temperature*(9/5) + 32);\n    x.push(data[i].time);\n}\n\nmsg.payload = [{\n    series: \"\",\n    data: [y],\n    labels: x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 3160,
+        "wires": [
+            [
+                "8c6d951b7f0c283e"
+            ]
+        ]
+    },
+    {
+        "id": "a67a63cd060d6753",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n// data[0].msgID\n// data[0].time\n\n// data[0].Battery_voltage\n// data[0].VIN_voltage\n// data[0].Ambient_temperature\n// data[0].Ambient_humidity\n// data[0].Barometric_pressure\n// data[0].Gas_resistance\n// data[0].Soil_temperature\n// data[0].Soil_moisture\n// data[0].UV_intensity\n\nfor (var i=0; i<data.length; i++){\n    y.push(data[i].Soil_temperature*(9/5) + 32);\n    x.push(data[i].time);\n}\n\nmsg.payload = [{\n    series: \"\",\n    data: [y],\n    labels: x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1400,
+        "y": 3160,
+        "wires": [
+            [
+                "76425434f4cfb275"
+            ]
+        ]
+    },
+    {
+        "id": "9cef1d85ff2f27b9",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n// data[0].msgID\n// data[0].time\n\n// data[0].Battery_voltage\n// data[0].VIN_voltage\n// data[0].Ambient_temperature\n// data[0].Ambient_humidity\n// data[0].Barometric_pressure\n// data[0].Gas_resistance\n// data[0].Soil_temperature\n// data[0].Soil_moisture\n// data[0].UV_intensity\n\nfor (var i=0; i<data.length; i++){\n    y.push(data[i].Ambient_temperature*(9/5) + 32);\n    x.push(data[i].time);\n}\n\nmsg.payload = [{\n    series: \"\",\n    data: [y],\n    labels: x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 2800,
+        "wires": [
+            [
+                "a4cc81f02bb2ba24"
+            ]
+        ]
+    },
+    {
+        "id": "d23312f2ebc7299e",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n// data[0].msgID\n// data[0].time\n\n// data[0].Battery_voltage\n// data[0].VIN_voltage\n// data[0].Ambient_temperature\n// data[0].Ambient_humidity\n// data[0].Barometric_pressure\n// data[0].Gas_resistance\n// data[0].Soil_temperature\n// data[0].Soil_moisture\n// data[0].UV_intensity\n\nfor (var i=0; i<data.length; i++){\n    y.push(data[i].Soil_temperature*(9/5) + 32);\n    x.push(data[i].time);\n}\n\nmsg.payload = [{\n    series: \"\",\n    data: [y],\n    labels: x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1160,
+        "y": 2800,
+        "wires": [
+            [
+                "89a8e6102b050b27"
+            ]
+        ]
+    },
+    {
+        "id": "66094b90da646f21",
+        "type": "trigger",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "op1": "",
+        "op2": "",
+        "op1type": "pay",
+        "op2type": "payl",
+        "duration": "30",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 2,
+        "x": 2410,
+        "y": 920,
+        "wires": [
+            [
+                "0cf9c2bd0b7ff10b"
+            ],
             []
         ]
     },
